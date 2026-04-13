@@ -3,7 +3,11 @@
 # ============================================================
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from config import HTML_FILE, OUTPUT_DIR
+
+_SEOUL = ZoneInfo("Asia/Seoul")
 
 
 def generate_html(weather: dict, keywords: dict, outfit: dict, images: dict) -> str:
@@ -17,8 +21,9 @@ def generate_html(weather: dict, keywords: dict, outfit: dict, images: dict) -> 
         else "Naver Search"
     )
 
-    today = datetime.now().strftime("%Y년 %m월 %d일")
-    weekday = ["월", "화", "수", "목", "금", "토", "일"][datetime.now().weekday()]
+    now = datetime.now(_SEOUL)
+    today = now.strftime("%Y년 %m월 %d일")
+    weekday = ["월", "화", "수", "목", "금", "토", "일"][now.weekday()]
     rain_tip_html = f'<div class="rain-tip">{keywords["rain_tip"]}</div>' if keywords["rain_tip"] else ""
 
     def img_cards(img_list: list) -> str:
