@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write # output/outfit_today.html 푸시용
   pages: write
   id-token: write
 
@@ -27,6 +27,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ github.token }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -53,6 +56,18 @@ jobs:
 
       - name: Generate outfit HTML
         run: python main.py
+
+      - name: Commit and push output/outfit_today.html
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output/outfit_today.html
+          if git diff --staged --quiet; then
+            echo "No changes to outfit_today.html"
+          else
+            git commit -m "chore: update outfit_today.html"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
 
       - name: Prepare static site (루트 = 오늘의 코디)
         run: |

@@ -88,6 +88,8 @@ python image_search.py
 
 저장소에 푸시한 뒤, **매일 21:00 UTC(≈ 한국 시간 다음날 06:00)**에 `main.py`가 실행되고, 생성된 `output/outfit_today.html`이 Pages에 올라갑니다. 사이트 루트(`/`)와 `/outfit_today.html` 모두 같은 페이지입니다.
 
+같은 워크플로에서 **`output/outfit_today.html`을 저장소에 커밋·푸시**하므로, GitHub **코드** 탭에서도 매 실행마다 최신 HTML이 반영됩니다. (최초 1회는 로컬에서 `output/outfit_today.html`을 추가해 커밋해 두면 추적이 안정적입니다.)
+
 ### 1) Pages 설정
 1. GitHub 저장소 **Settings → Pages**
 2. **Build and deployment** → **Source**: **GitHub Actions** 선택
@@ -114,6 +116,9 @@ python image_search.py
 ### 4) 배포 URL
 - **User/Organization Pages**가 아니라 **프로젝트 Pages**인 경우: `https://<사용자>.github.io/<저장소이름>/`
 - 첫 배포 후 1~2분 정도 걸릴 수 있습니다.
+
+### 5) Actions가 `git push`에 실패할 때
+- **Branch protection**이 `main` 등에 걸려 있고 리뷰를 요구하면, `GITHUB_TOKEN` 푸시가 막힐 수 있습니다. 저장소 **Settings → Rules → Rulesets**에서 Actions/bot 예외를 두거나, 보호 규칙을 완화해야 합니다.
 
 스케줄 시각을 바꾸려면 `.github/workflows/deploy-pages.yml`의 `cron`을 수정하세요. [crontab-guru](https://crontab.guru/)는 UTC 기준입니다.
 
