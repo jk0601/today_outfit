@@ -49,20 +49,24 @@ def generate_html(weather: dict, keywords: dict, outfit: dict, images: dict) -> 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>오늘의 코디 — {today}</title>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {{
-    --bg: #f7f5f2;
+    --bg: #faf7f4;
     --card: #ffffff;
     --text: #1a1a1a;
     --muted: #888;
-    --accent: #c9a96e;
+    --accent: #d4a574;
     --accent2: #6e8fc9;
-    --border: #e8e4de;
+    --border: #ebe6df;
     --male: #e8f0fb;
     --female: #fbeaf0;
     --male-accent: #3a6abf;
     --female-accent: #bf3a6a;
+    /* 밝은 헤더 */
+    --header-fg: #3d3430;
+    --header-date: #c76b5c;
+    --header-stripe: rgba(190, 130, 110, .09);
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{
@@ -73,44 +77,57 @@ def generate_html(weather: dict, keywords: dict, outfit: dict, images: dict) -> 
     padding: 0 0 60px;
   }}
 
-  /* ── Header ── */
+  /* ── Header (화사한 톤 + 빗금 유지) ── */
   .header {{
-    background: var(--text);
-    color: #fff;
+    color: var(--header-fg);
     padding: 32px 24px 28px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    background: linear-gradient(
+      125deg,
+      #fff9f4 0%,
+      #fff0eb 28%,
+      #ffe8f2 55%,
+      #f3ecff 85%,
+      #eef6ff 100%
+    );
   }}
   .header::before {{
     content: '';
     position: absolute; inset: 0;
     background: repeating-linear-gradient(
       45deg, transparent, transparent 40px,
-      rgba(255,255,255,.03) 40px, rgba(255,255,255,.03) 80px
+      var(--header-stripe) 40px, var(--header-stripe) 80px
     );
+    pointer-events: none;
   }}
   .date-tag {{
     font-size: 11px; font-weight: 500; letter-spacing: 3px;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 10px;
+    color: var(--header-date); text-transform: uppercase; margin-bottom: 10px;
+    position: relative; z-index: 1;
   }}
   .header h1 {{
-    font-family: 'Gowun Batang', 'Noto Serif KR', Georgia, serif;
+    font-family: 'Jua', 'Noto Sans KR', sans-serif;
     font-size: clamp(30px, 7vw, 46px);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.2;
     letter-spacing: -0.03em;
     font-feature-settings: "kern" 1;
-    text-shadow: 0 2px 24px rgba(0,0,0,.35);
+    color: var(--header-fg);
+    text-shadow: 0 1px 0 rgba(255,255,255,.85), 0 6px 28px rgba(255, 160, 140, .22);
     margin-bottom: 6px;
     position: relative; z-index: 1;
   }}
   .mood-badge {{
     display: inline-block;
-    background: var(--accent); color: #fff;
-    font-size: 12px; font-weight: 500;
-    padding: 4px 14px; border-radius: 20px;
-    letter-spacing: 1px; margin-top: 8px;
+    position: relative; z-index: 1;
+    background: linear-gradient(135deg, #f0a080, #e07d6a);
+    color: #fff;
+    font-size: 12px; font-weight: 600;
+    padding: 5px 16px; border-radius: 20px;
+    letter-spacing: 0.5px; margin-top: 8px;
+    box-shadow: 0 4px 16px rgba(224, 125, 106, .35);
   }}
 
   /* ── Weather Card ── */
