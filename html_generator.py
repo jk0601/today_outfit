@@ -2,12 +2,15 @@
 #  html_generator.py  |  오늘의 코디 HTML 파일 생성
 # ============================================================
 import os
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from config import HTML_FILE, OUTPUT_DIR
 
-_SEOUL = ZoneInfo("Asia/Seoul")
+try:
+    _SEOUL = ZoneInfo("Asia/Seoul")
+except ZoneInfoNotFoundError:
+    _SEOUL = timezone(timedelta(hours=9))
 
 
 def generate_html(weather: dict, keywords: dict, outfit: dict, images: dict) -> str:

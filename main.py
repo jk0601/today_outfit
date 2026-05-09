@@ -31,7 +31,7 @@ def main():
     try:
         weather  = get_weather()
         keywords = weather_to_outfit_keywords(weather)
-        log(f"   → {weather['temp']}°C, {weather['description']}, 강수 {weather['rain_prob']}%")
+        log(f"   → {weather['temp']}°C(체감 {weather['feels_like']}), 코디기준 ~{keywords.get('layer_temp', '?')}°, {weather['description']}, 강수 {weather['rain_prob']}%")
     except Exception as e:
         log(f"❌ 날씨 수집 실패: {e}")
         traceback.print_exc()
